@@ -1,0 +1,22 @@
+$sidebar-width: 20%;
+.home-container{
+    display: flex;
+    .sidebar{
+        width: $sidebar-width;
+        // height: 100vh;
+        button[aria-expanded="true"]>.collapse-arrow{
+            transition: transform 0.5s ease;
+            transform: rotate(180deg);
+        }
+    }
+    .main-content{
+        width: calc(100% - #{$sidebar-width});
+        // height: 100vh;
+        .card{
+            img.card-img-top{
+                height: 11rem;
+                width: 100%;
+            }
+        }
+    }
+}
