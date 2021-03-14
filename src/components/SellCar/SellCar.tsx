@@ -3,6 +3,7 @@ import 'bs-stepper/dist/css/bs-stepper.min.css';
 
 type MyProps = {};
 type SellCarState = {
+  valid: boolean,
   company: any,
   model: any,
   price: any,
@@ -19,36 +20,47 @@ class SellCar extends React.Component<MyProps, SellCarState> {
   constructor(props: MyProps) {
     super(props);
     this.state = {
-      company: null,
-      model: null,
-      price: null,
-      insuranceValidity: null,
-      purchaseDate: null,
-      totalRunning: null,
-      color: null,
-      registrationNo: null,
+      valid: false,
+      company: 'Tesla',
+      model: 'Hybrid',
+      price: 2500000,
+      insuranceValidity: 2025,
+      purchaseDate: new Date(),
+      totalRunning: 120000,
+      color: 'black',
+      registrationNo: 314159,
       image: null
     }
   }
 
-  setSellCarState = (event: any) => {
+  setSellCarState = async (event: any) => {
     const value = event.target.value;
     const field = event.target.name;
-    this.setState<never>({ [field]: value })
+    await this.setState<never>({ [field]: value });
+    await this.validateForm();
   }
 
-  fileSelectedHandler = (event: any) => {
-    console.log(event);
-    this.setState({
+  fileSelectedHandler = async (event: any) => {
+    await this.setState({
       image: URL.createObjectURL(event.target.files[0])
     })
-    console.log(this.state);
-
+    await this.validateForm();
   }
 
-  uploadDataHandler = () => {
-    console.log(this.state);
+  uploadDataHandler = async () => {
+    await this.validateForm();
+  }
 
+  validateForm = async () => {
+    let valid = true;
+    Object.entries(this.state).map(([key, value]) => {
+      if(key !== 'valid' && !value) {
+        valid = false;
+      }
+    });
+    await this.setState({
+      valid: valid
+    });
   }
 
   render() {
@@ -159,7 +171,7 @@ class SellCar extends React.Component<MyProps, SellCarState> {
 
           <div className="row">
             <div className="col-12 px-5 d-flex justify-content-around">
-              <button className="btn btn-success sc-submit-btn">Submit</button>
+              <button className="btn btn-success sc-submit-btn" disabled={!this.state.valid} onClick={this.uploadDataHandler}>Submit</button>
             </div>
           </div>
         </div>
