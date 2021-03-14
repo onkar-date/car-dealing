@@ -5,7 +5,7 @@ $sidebar-width: 20%;
         width: $sidebar-width;
         // height: 100vh;
         button[aria-expanded="true"]>.collapse-arrow{
-            transition: transform 0.5s ease;
+            transition: transform 0.5s ease-in-out;
             transform: rotate(180deg);
         }
     }
